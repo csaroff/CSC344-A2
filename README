@@ -1,0 +1,14 @@
+Programming Languages - Assignment Two
+Written by: Chaskin Saroff
+Due: October 7, 2014
+
+Functionality:
+    eval-exp takes a binding list and an expression and gives back a simplified expression.
+
+It is called as follows:
+    (eval-exp binding-list exp)
+
+A binding list comes in the following form:
+    '((oldVal1 newVal1) (oldVal2 newVal2) ... (oldValn newValn))
+    
+    where oldVal represents a value in an expression exp that will be replaced with newVal.
