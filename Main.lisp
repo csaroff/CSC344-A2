@@ -36,11 +36,38 @@
       left-arg)
     ((and (= left-arg 0) (numberp right-arg) )
       right-arg)
-    (())
-    ()
-    )
+    ;Still need the case of (+ x (- 0 x)) = 0
+    (T (error "Simplify-add did not come in the standard form."))
   )
-
+)
+(defun simplify-sub (left-arg right-arg)
+  (cond
+    ((and (numberp left-arg) (= right-arg 0))
+     left-arg)
+    ((= left-arg right-arg) 0)
+    (T (error "Simplify-subtract did not come in the standard form."))
+  )
+)
+(defun simplify-mul (left-arg right-arg)
+  (cond
+    ((and (numberp left-arg) (= right-arg 0))
+     0)
+    ((and (= left-arg 0) (numberp right-arg))
+     0)
+    ((and (numberp left-arg) (= right-arg 1))
+     left-arg)
+    ((and (= left-arg 1) (numberp right-arg))
+     right-arg)
+  )
+)
+(defun simplify-div (left-arg right-arg)
+  (cond
+    ((= left-arg 0) 0)
+    ((and (numberp left-arg) (= right-arg 1))
+     left-arg)
+    ((= left-arg right-arg) 1)
+  )
+)
 (defun simplify-triple(op left-arg right-arg) ;Simplifies a triple ie elementary operation.
   ;;Remember to consider nested triples.  
   (if (listp left-arg)
