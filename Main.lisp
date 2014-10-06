@@ -75,13 +75,14 @@
    )))
  )
 (defun simplify-add (left-arg right-arg)
- (cond;Unit test successful
+ (cond
   ((eq right-arg 0) left-arg)
   ((eq left-arg 0) right-arg)
   ;The case of (+ x (- 0 x)) eq 0
   ((and (numberp left-arg) (numberp right-arg))(+ left-arg right-arg))
-  ((and (atom left-arg) (eq left-arg (is-negative right-arg))) 0)
-  ((and (atom right-arg) (eq right-arg (is-negative left-arg))) 0)
+  ;((and (atom left-arg) (atom right-arg))(list '+ left-arg right-arg))
+  ((and (atom left-arg) (listp right-arg) (eq left-arg (is-negative right-arg))) 0)
+  ((and (atom right-arg) (listp right-arg) (eq right-arg (is-negative left-arg))) 0)
   (T (list '+ left-arg right-arg))
  )
  )
@@ -120,9 +121,6 @@
   ( (eq op '-) (simplify-sub left-arg right-arg))
   ( (eq op '*) (simplify-mul left-arg right-arg))
   ( (eq op '/) (simplify-div left-arg right-arg))
-  ;( (and (atom left-arg) (numberp right-arg))
-	  ; (eval (list op left-arg right-arg)))
-  ;( ((eq op '+) ()) ... )
   (T
    (list op left-arg right-arg))))
 
@@ -138,10 +136,10 @@
  ;;Calls substitute-bindings and simplifies the result.
  (simplify (subst-bindings binding-list exp))
  )
+
  (trace simplify)
  (trace simplify-add)
  (trace simplify-sub)
  (trace simplify-triple)
  (trace deep-subst)
  (trace subst-bindings)
-
